@@ -63,6 +63,13 @@
         <scope>runtime</scope>
     </dependency>
 
+    <!-- PostgreSQL for Production -->
+    <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+
     <!-- H2 Database for Zero-Config persistence -->
     <dependency>
         <groupId>org.springframework.boot</groupId>
