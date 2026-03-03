@@ -24,6 +24,7 @@ public class CommunityController {
 
     @PostMapping("/posts")
     public ResponseEntity<CommunityPost> createPost(@RequestBody CommunityPost post) {
+        post.setId(null); // Ensure it's treated as a new entity
         post.setCreatedAt(LocalDateTime.now());
         CommunityPost saved = communityPostRepository.save(post);
         return ResponseEntity.ok(saved);

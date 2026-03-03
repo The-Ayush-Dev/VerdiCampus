@@ -1,0 +1,31 @@
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Backend sensitive files
+verdicampus-backend/.env
+verdicampus-backend/*.db
+verdicampus-backend/*.log
+verdicampus-backend/target/
+verdicampus-backend/.mvn/
+verdicampus-backend/mvnw
+verdicampus-backend/mvnw.cmd
+
+# Frontend sensitive files
+verdicampus_frontend/node_modules/
+verdicampus_frontend/dist/
+verdicampus_frontend/.env*
+verdicampus_frontend/*.log
+verdicampus_frontend/.local
+
+# General
+node_modules/
+dist/
+*.log
+.env
