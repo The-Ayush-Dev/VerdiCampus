@@ -28,15 +28,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-        String path = request.getServletPath();
+        String path = request.getRequestURI();
 
-        if (path.equals("/api/chat") ||
-                path.equals("/api/health") ||
-                path.equals("/api/check-key") ||
-                path.startsWith("/api/auth/") ||
-                path.startsWith("/api/ai/") ||
-                path.startsWith("/api/community/") ||
-                path.equals("/api/sustainability/global")) {
+        if (path.contains("/api/chat") ||
+                path.contains("/api/health") ||
+                path.contains("/api/check-key") ||
+                path.contains("/api/auth/") ||
+                path.contains("/api/ai/") ||
+                path.contains("/api/community/") ||
+                path.contains("/api/sustainability/global")) {
 
             chain.doFilter(request, response);
             return;
