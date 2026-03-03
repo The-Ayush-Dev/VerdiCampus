@@ -22,6 +22,10 @@ public class GeminiService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
+    public boolean isApiKeyConfigured() {
+        return apiKey != null && !apiKey.isEmpty() && !apiKey.equals("${GEMINI_API_KEY}");
+    }
+
     public String generateResponse(String prompt) {
         return callGemini(prompt, null, null);
     }
@@ -31,11 +35,9 @@ public class GeminiService {
     }
 
     private String callGemini(String prompt, String base64Image, String mimeType) {
-        System.out.println("AI Request Prompt: " + prompt.substring(0, Math.min(prompt.length(), 100)) + "...");
-        
-        if (apiKey == null || apiKey.isEmpty() || "REPLACE_WITH_YOUR_GEMINI_API_KEY".equals(apiKey)) {
-            System.err.println("AI Error: Gemini API Key is missing or invalid!");
-            return "AI Service: Please provide a valid Gemini API Key.";
+        if (apiKey == null || apiKey.isEmpty() || apiKey.equals("${GEMINI_API_KEY}")) {
+            System.err.println("AI Error: GEMINI_API_KEY environment variable is missing.");
+            return "AI Error: API key configuration missing.";
         }
 
         try {
@@ -46,7 +48,6 @@ public class GeminiService {
             textPart.put("text", prompt);
 
             Map<String, Object> content = new HashMap<>();
-            
             if (base64Image != null) {
                 Map<String, Object> imagePart = new HashMap<>();
                 Map<String, String> inlineData = new HashMap<>();
@@ -64,30 +65,25 @@ public class GeminiService {
             String urlWithKey = apiUrl + "?key=" + apiKey;
             HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
 
-            System.out.println("Calling Gemini API at: " + apiUrl);
             Map<String, Object> response = restTemplate.postForObject(urlWithKey, entity, Map.class);
-            
+
             if (response == null || !response.containsKey("candidates")) {
-                System.err.println("AI Error: Unexpected response format from Gemini");
-                return "AI Error: Unexpected response from Gemini API";
+                return "AI Error: Invalid response from Gemini.";
             }
 
             List<Map<String, Object>> candidates = (List<Map<String, Object>>) response.get("candidates");
             Map<String, Object> firstCandidate = candidates.get(0);
             Map<String, Object> contentMap = (Map<String, Object>) firstCandidate.get("content");
             List<Map<String, Object>> parts = (List<Map<String, Object>>) contentMap.get("parts");
-            
-            String result = (String) parts.get(0).get("text");
-            System.out.println("AI Response Success (Length: " + result.length() + ")");
-            return result;
+
+            return (String) parts.get(0).get("text");
 
         } catch (org.springframework.web.client.HttpClientErrorException e) {
             System.err.println("AI HTTP Error: " + e.getStatusCode() + " - " + e.getResponseBodyAsString());
-            return "AI Error: " + e.getStatusCode() + " - " + e.getResponseBodyAsString();
+            return "AI Error: Connection failed (" + e.getStatusCode() + ")";
         } catch (Exception e) {
             System.err.println("AI General Error: " + e.getMessage());
-            e.printStackTrace();
-            return "AI Error: " + e.getMessage();
+            return "AI Error: An unexpected error occurred.";
         }
     }
 }

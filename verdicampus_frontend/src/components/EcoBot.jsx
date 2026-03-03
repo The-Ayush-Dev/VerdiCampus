@@ -39,11 +39,16 @@ const EcoBot = () => {
     setLoading(true);
 
     try {
-      const response = await api.post('/ai/chat', { message: userMsg });
-      setMessages(prev => [...prev, { text: response.data.reply, sender: 'bot' }]);
+      const response = await api.post('/chat', { message: userMsg });
+      if (response.data && response.data.success) {
+        setMessages(prev => [...prev, { text: response.data.message, sender: 'bot' }]);
+      } else {
+        const errorMsg = response.data?.message || "Something went wrong with my green circuits.";
+        setMessages(prev => [...prev, { text: errorMsg, sender: 'bot' }]);
+      }
     } catch (error) {
       console.error("Chat error:", error);
-      setMessages(prev => [...prev, { text: "Sorry, my green servers are a bit busy right now. Please try again later.", sender: 'bot' }]);
+      setMessages(prev => [...prev, { text: "I'm offline right now. Please check back later!", sender: 'bot' }]);
     } finally {
       setLoading(false);
     }
