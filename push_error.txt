@@ -1,0 +1,51 @@
+﻿git : remote: error: 
+Trace: 99f5b864389fb8a1
+06ea09429d301f0f7f5cda3
+dabfaed7e3c415825a21609
+46        
+At line:1 char:44
++ ...  git remote -v; 
+git status; git push 
+origin main --force 
+2>&1 | Out-F ...
++                      
+           ~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (remote: error   
+ : ...2160946          
+  :String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+remote: error: See 
+https://gh.io/lfs for 
+more information.      
+  
+remote: error: File 
+docs/assets/A 
+video.mp4 is 113.10 
+MB; this exceeds 
+GitHub's file size 
+limit of 100.00 MB     
+   
+remote: error: GH001: 
+Large files detected. 
+You may want to try 
+Git Large File Storage 
+- https://git-lfs.githu
+b.com.        
+To https://github.com/T
+he-Ayush-Dev/VerdiCampu
+s.git
+ ! [remote rejected] 
+main -> main 
+(pre-receive hook 
+declined)
+error: failed to push 
+some refs to 'https://g
+ithub.com/The-Ayush-Dev
+/VerdiCampus.git'
