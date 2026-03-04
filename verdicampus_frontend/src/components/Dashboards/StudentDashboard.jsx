@@ -59,7 +59,7 @@ const StudentDashboard = () => {
         // AI FEATURE: Precise Paper Impact Auditor
         let precisePages = 5; // Default
         try {
-          const auditResponse = await api.post('/ai/audit', { content: base64File.substring(0, 5000) });
+          const auditResponse = await api.post('/audit', { content: base64File.substring(0, 5000) });
           precisePages = parseInt(auditResponse.data.pages) || 5;
         } catch (aiErr) {
           console.error("AI Audit failed, using default");
@@ -99,7 +99,7 @@ const StudentDashboard = () => {
     reader.readAsDataURL(file);
     reader.onload = async () => {
       try {
-        const response = await api.post('/ai/digitize', {
+        const response = await api.post('/digitize', {
           image: reader.result,
           mimeType: file.type
         });

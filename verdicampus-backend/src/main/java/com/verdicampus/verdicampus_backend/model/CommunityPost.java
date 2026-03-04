@@ -23,10 +23,14 @@ public class CommunityPost {
 
     private String authorRole; // STUDENT or TEACHER
 
+    private String type; // DISCUSSION, EVENT, IDEA
+
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    private String tag;
+    private String tags;
+
+    private int likes;
 
     private LocalDateTime createdAt = LocalDateTime.now();
 }

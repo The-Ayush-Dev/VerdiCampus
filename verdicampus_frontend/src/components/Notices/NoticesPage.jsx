@@ -60,7 +60,7 @@ const NoticesPage = () => {
     const id = notice.id || notice.title;
     setSummarizing({ ...summarizing, [id]: true });
     try {
-      const response = await api.post('/ai/summarize', { content: notice.content || notice.title });
+      const response = await api.post('/summarize', { content: notice.content || notice.title });
       setSummaries({ ...summaries, [id]: response.data.summary });
     } catch (err) {
       setSummaries({ ...summaries, [id]: "AI summary unavailable. Please read the full text." });

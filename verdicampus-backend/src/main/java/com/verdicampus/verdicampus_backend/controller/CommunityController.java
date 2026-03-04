@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/community")
@@ -26,8 +27,21 @@ public class CommunityController {
     public ResponseEntity<CommunityPost> createPost(@RequestBody CommunityPost post) {
         post.setId(null); // Ensure it's treated as a new entity
         post.setCreatedAt(LocalDateTime.now());
+        post.setLikes(0);
         CommunityPost saved = communityPostRepository.save(post);
         return ResponseEntity.ok(saved);
+    }
+
+    @PostMapping("/posts/{id}/like")
+    public ResponseEntity<CommunityPost> likePost(@PathVariable Long id) {
+        Optional<CommunityPost> optionalPost = communityPostRepository.findById(id);
+        if (optionalPost.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        CommunityPost post = optionalPost.get();
+        post.setLikes(post.getLikes() + 1);
+        communityPostRepository.save(post);
+        return ResponseEntity.ok(post);
     }
 
     @DeleteMapping("/posts/{id}")

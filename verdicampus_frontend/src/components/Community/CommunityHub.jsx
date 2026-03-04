@@ -77,7 +77,7 @@ const CommunityHub = () => {
     setNewPostContent('');
     try {
       const prompt = `Suggest a creative, high-impact campus sustainability event that students can easily participate in without using any paper materials. Format as a catchy title and short description.`;
-      const response = await api.post('/ai/generate', { prompt });
+      const response = await api.post('/generate', { prompt });
       setNewPostType('EVENT');
       setNewPostContent(response.data.text || `Campus E-Waste Collection Drive 🔋\nBring your old electronics to the student union this Friday! Let's divert toxic waste from landfills.`);
       setNewPostTags('e-waste, campus-event, zero-paper');

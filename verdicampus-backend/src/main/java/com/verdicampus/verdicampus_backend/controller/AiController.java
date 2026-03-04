@@ -51,8 +51,19 @@ public class AiController {
     @PostMapping("/summarize")
     public Map<String, Object> summarize(@RequestBody Map<String, String> request) {
         String content = request.get("content");
-        String prompt = "Summarize this notice in one short easy sentence: " + content;
-        return Map.of("summary", geminiService.generateResponse(prompt));
+        if (content == null || content.trim().isEmpty()) {
+            return Map.of("summary", "No content provided to summarize.");
+        }
+        try {
+            String prompt = "Summarize this notice in one short easy sentence: " + content;
+            String result = geminiService.generateResponse(prompt);
+            if (result.startsWith("AI Error")) {
+                return Map.of("summary", "AI summary unavailable. Please read the full text.");
+            }
+            return Map.of("summary", result);
+        } catch (Exception e) {
+            return Map.of("summary", "AI summary unavailable. Please try again later.");
+        }
     }
 
     @PostMapping("/digitize")
